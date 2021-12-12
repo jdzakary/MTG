@@ -1,0 +1,1 @@
+delete from {0} where collection_id = {1}

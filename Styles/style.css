@@ -1,0 +1,19 @@
+[window_header="true"]{
+    font-size: 64px;
+    font-weight: bold;
+    font-family: Papyrus, sans-serif;
+}
+[secondary_title="true"]{
+    font-size: 48px;
+    font-weight: bold;
+    font-family: Papyrus, sans-serif;
+}
+[table_filter="true"]{
+    font-size: 30px;
+}
+[viewer_body="true"]{
+    font-size: 26px;
+}
+.QMenuBar{
+    spacing: 10px;
+}

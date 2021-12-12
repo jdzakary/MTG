@@ -1,0 +1,52 @@
+{
+  "primary_collection": "Main",
+  "table_mapping": {
+    "Main": "collection_1",
+    "Wishlist": "collection_2",
+    "Be Gone": "collection_3"
+  },
+  "collections": {
+    "Main": {
+      "locations": [
+        {
+          "name": "Jodah EDH Deck",
+          "type": "Deck",
+          "sub_type": "Commander"
+        },
+        {
+          "name": "Binder",
+          "type": "Storage",
+          "sub_type": "Binder"
+        }
+      ]
+    },
+    "Wishlist": {
+      "locations": [
+        {
+          "name": "Sliver Idea",
+          "type": "Deck",
+          "sub_type": "Commander"
+        },
+        {
+          "name": "General Wishlist",
+          "type": "Storage",
+          "sub_type": "Binder"
+        },
+        {
+          "name": "Jodah Improvements",
+          "type": "Deck",
+          "sub_type": "Commander"
+        }
+      ]
+    },
+    "Be Gone": {
+      "locations": [
+        {
+          "name": "Starter",
+          "type": "Deck",
+          "sub_type": "Standard"
+        }
+      ]
+    }
+  }
+}
