@@ -124,7 +124,7 @@ class CardViewer(QWidget):
 
     def load_card(self, desired_id: int):
         self.desired_id = desired_id
-        self._refresh_attributes()
+        self.refresh_attributes()
         QWidget().setLayout(self.layout())
         self.create_layout()
 

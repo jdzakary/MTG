@@ -3,7 +3,7 @@
   "table_mapping": {
     "Main": "collection_1",
     "Wishlist": "collection_2",
-    "Be Gone": "collection_3"
+    "Testing": "collection_3"
   },
   "collections": {
     "Main": {
@@ -39,7 +39,7 @@
         }
       ]
     },
-    "Be Gone": {
+    "Testing": {
       "locations": [
         {
           "name": "Starter",
