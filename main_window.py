@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
             pass
         else:
             if dialog_name == 'location':
-                self.dialog_window = LocationManager(self)
+                self.dialog_window = LocationManager(self.c_widget.currentWidget())
             elif dialog_name == 'price_update':
                 self.dialog_window = PriceUpdater(self)
 

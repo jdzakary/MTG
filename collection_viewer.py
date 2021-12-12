@@ -16,7 +16,7 @@ class CollectionViewer(QWidget):
     def create_layout(self):
         layout = QGridLayout()
         self.table = QTableWidget()
-        self.table.setSortingEnabled(True)
+        self.table.setSortingEnabled(False)
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.cellClicked.connect(self.refresh_viewer)
         self.refresh_table('')
@@ -27,6 +27,7 @@ class CollectionViewer(QWidget):
 
     def create_filters(self):
         self.filter_box = QWidget()
+        self.filter_box.setFixedWidth(int(800 * self.source.source.scr_w_r))
         layout = QGridLayout()
         layout.setAlignment(Qt.AlignTop)
         self.edit_name = QLineEdit(self.filter_box)
@@ -59,21 +60,16 @@ class CollectionViewer(QWidget):
                          QLabel('Location Type:', self.filter_box), QLabel('Location Subtype:', self.filter_box),
                          QLabel('Min Price:', self.filter_box), QLabel('Max Price:', self.filter_box),
                          QLabel('Foil:', self.filter_box), QLabel('Rarity:', self.filter_box)]
-        for i in range(0, len(filter_titles), 2):
+        for i in range(0, len(filter_titles)):
             item_1 = filter_titles[i]
-            item_2 = filter_titles[i + 1]
             item_1.setProperty('table_filter', True)
-            item_2.setProperty('table_filter', True)
             layout.addWidget(item_1, i * 2, 0)
-            layout.addWidget(item_2, i * 2, 1)
         filter_boxes = [self.edit_name, self.edit_set, self.edit_set_type, self.edit_location, self.edit_type,
                         self.edit_sub, self.edit_min, self.edit_max, self.edit_foil, self.edit_rarity]
-        for i in range(0, len(filter_boxes), 2):
+        for i in range(0, len(filter_boxes)):
             item_1 = filter_boxes[i]
-            item_2 = filter_boxes[i + 1]
             layout.addWidget(item_1, i * 2 + 1, 0)
-            layout.addWidget(item_2, i * 2 + 1, 1)
-            for item in [item_1, item_2]:
+            for item in [item_1]:
                 if 'QLineEdit' in str(type(item)):
                     item.textChanged.connect(self.apply_filter)
                 elif 'QComboBox' in str(type(item)):
@@ -135,6 +131,7 @@ class CollectionViewer(QWidget):
         max_value = self.edit_max.text()
         desired_type = self.edit_type.currentText()
         desired_sub = self.edit_sub.currentText()
+        desired_location = self.edit_location.text()
         desired_locations = [x['name'] for x in self.source.source.config['collections'][self.name]['locations'] if
                              (x['type'] == desired_type or desired_type == '') and
                              (x['sub_type'] == desired_sub or desired_sub == '')]
@@ -142,6 +139,8 @@ class CollectionViewer(QWidget):
         constraints = f"""where Location in ({" ,".join(["'" + x + "'" for x in desired_locations])})"""
         if desired_name != '':
             constraints += f""" and instr(name, '{desired_name}')"""
+        if desired_location != '':
+            constraints += f""" and instr(Location, '{desired_location}')"""
         if desired_set != '':
             constraints += f" and instr(set_name, '{desired_set}')"
         if desired_set_type != '':
