@@ -1,4 +1,5 @@
 from hashlib import md5
+from time import sleep
 
 
 def contains_any(input_string: str, input_set: list):
@@ -18,3 +19,7 @@ def fetch_image(set_type: str, set_name: str, card_id: str, back: bool = False) 
     with open(filepath, 'rb') as file1:
         image_data = file1.read()
     return image_data
+
+
+def update_prices():
+    sleep(30)

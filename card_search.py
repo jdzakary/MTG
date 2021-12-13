@@ -15,7 +15,7 @@ class CardSearch(QWidget):
         super(CardSearch, self).__init__()
         self.name = name
         self.source = source
-        self.constraints = "where as.name = 'Fury Sliver'"
+        self.constraints = "where ae.name = 'Fury Sliver'"
         self.create_layout()
 
     def create_layout(self):
@@ -32,7 +32,7 @@ class CardSearch(QWidget):
         self.setLayout(layout)
 
     def refresh_table(self):
-        with open('Database_Files/SQL Files/card_search.sql') as file1:
+        with open('Database_Files/SQL_Files/card_search.sql') as file1:
             query = file1.read()
         query += ' ' + self.constraints
         data = self.source.source.fetch_data(query)

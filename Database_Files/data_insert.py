@@ -23,14 +23,15 @@ def find_new(df, table_name, engine, dup_cols, filter_continuous_col=None, filte
     return df
 
 
-default = pd.read_csv('default.csv')
-oracle = pd.read_csv('oracle.csv')
-connection = sqlite3.connect('main_database.db')
+def data_insert(path_prefix: str):
+    default = pd.read_csv(f'{path_prefix}default.csv')
+    oracle = pd.read_csv(f'{path_prefix}oracle.csv')
+    connection = sqlite3.connect(f'{path_prefix}main_database.db')
 
-new_default = find_new(oracle, 'oracle_entries', connection, ['oracle_id'])
-print(len(new_default))
-new_default.to_sql('oracle_entries', connection, if_exists='append', index=False)
+    new_default = find_new(oracle, 'oracle_entries', connection, ['oracle_id'])
+    print(len(new_default))
+    new_default.to_sql('oracle_entries', connection, if_exists='append', index=False)
 
-new_default = find_new(default, 'all_entries', connection, ['scryfall_uri'])
-print(len(new_default))
-new_default.to_sql('all_entries', connection, if_exists='append', index=False)
+    new_default = find_new(default, 'all_entries', connection, ['scryfall_uri'])
+    print(len(new_default))
+    new_default.to_sql('all_entries', connection, if_exists='append', index=False)
