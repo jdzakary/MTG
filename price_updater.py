@@ -8,6 +8,7 @@ from PyQt5.QtGui import QFont
 from Database_Files.data_download import data_download
 from Database_Files.data_insert import data_insert
 from Database_Files.download_images import download_images
+from Database_Files.update_prices import update_prices
 from time import sleep
 
 
@@ -34,8 +35,10 @@ class Thread(QThread):
             self.signal.emit({'Caller': self, 'Content': 2})
             data_insert('Database_Files/')
             self.signal.emit({'Caller': self, 'Content': 3})
-            download_images('Database_Files/')
+            update_prices('Database_Files/')
             self.signal.emit({'Caller': self, 'Content': 4})
+            download_images('Database_Files/')
+            self.signal.emit({'Caller': self, 'Content': 5})
 
 
 class PriceUpdater(QDialog):
@@ -90,7 +93,7 @@ class PriceUpdater(QDialog):
         if msg['Caller'] == self.thread_1:
             self.status_text.setText(f'Update in Progress {self.progress}: {msg["Content"]} seconds')
         elif msg['Caller'] == self.thread_2:
-            if msg['Content'] == 4:
+            if msg['Content'] == 5:
                 self.status_text.setText('Update Complete!')
                 self.submit.setEnabled(True)
                 self.updating = False

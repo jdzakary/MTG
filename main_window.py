@@ -108,13 +108,13 @@ class MainWindow(QMainWindow):
     def open_dialog(self, dialog_name: str):
         if dialog_name == 'collection':
             self.dialog_window = CollectionManager(self)
+        elif dialog_name == 'price_update':
+            self.dialog_window = PriceUpdater(self)
         elif self.c_widget.currentWidget() == self.loading_screen:
             pass
         else:
             if dialog_name == 'location':
                 self.dialog_window = LocationManager(self.c_widget.currentWidget())
-            elif dialog_name == 'price_update':
-                self.dialog_window = PriceUpdater(self)
 
     def close_tab(self, index: int):
         if index == 0:

@@ -144,9 +144,9 @@ class CardSearch(QWidget):
         if max_value != '':
             constraints += f' and value <= {float(max_value)}'
         if self.order_name.isChecked():
-            constraints += "order by ae.name, set_name"
+            constraints += " order by ae.name, set_name"
         elif self.order_set.isChecked():
-            constraints += "order by set_name, ae.name"
+            constraints += " order by set_name, ae.name"
         self.constraints = constraints
         self.table_1.clear()
         self.refresh_table()

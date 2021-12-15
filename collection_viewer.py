@@ -156,7 +156,7 @@ class CollectionViewer(QWidget):
             if 'QCheckBox' in str(type(item)):
                 if item.isChecked():
                     rarity_constraint.append(item.text().lower())
-        constraints += f"""and rarity in ({" ,".join(["'" + x + "'" for x in rarity_constraint])})"""
+        constraints += f""" and rarity in ({" ,".join(["'" + x + "'" for x in rarity_constraint])})"""
         self.table.clear()
         self.refresh_table(constraints)
 
