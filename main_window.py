@@ -147,5 +147,9 @@ class MainWindow(QMainWindow):
         with self.engine.connect() as connection:
             result = connection.execute(sql)
 
+    def close_all_tabs(self):
+        for i in range(self.c_widget.count()):
+            self.c_widget.removeTab(1)
+
     def resizeEvent(self, event):
         return super(MainWindow, self).resizeEvent(event)

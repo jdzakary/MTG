@@ -10,6 +10,7 @@ from Database_Files.data_insert import data_insert
 from Database_Files.download_images import download_images
 from Database_Files.update_prices import update_prices
 from time import sleep
+from os import chdir
 
 
 class Thread(QThread):
@@ -54,6 +55,7 @@ class PriceUpdater(QDialog):
         self.progress = '(Phase 1)'
         self.create_layout()
         self.setModal(True)
+        self.source.close_all_tabs()
         self.show()
 
     def create_layout(self):
@@ -97,6 +99,7 @@ class PriceUpdater(QDialog):
                 self.status_text.setText('Update Complete!')
                 self.submit.setEnabled(True)
                 self.updating = False
+                chdir('C:\\Laptop DATA Files\\Electronics\\Python Projects\\MTG')
             else:
                 self.progress = f'(Phase {msg["Content"]})'
 
