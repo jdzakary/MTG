@@ -108,6 +108,8 @@ class CardInsert(QWidget):
                         this_image.setPixmap(pix_map)
                     else:
                         this_image.setText('Oversized Card')
+                        this_image.setAlignment(Qt.AlignCenter)
+                        this_image.setProperty('secondary_title', True)
                 except FileNotFoundError:
                     this_image.setText('File not Found')
                 self.table_1.setCellWidget(row, column, this_image)
@@ -153,7 +155,7 @@ class CardInsert(QWidget):
             self.table_1.resizeColumnsToContents()
             self.table_1.resizeRowsToContents()
             self.table_1.itemDoubleClicked.connect(self.open_link)
-            self.table_1.setSortingEnabled(True)
+            self.table_1.setSortingEnabled(False)
         else:
             self.waiting_text.setText('Select a search version!')
         self.table_1.setEditTriggers(QAbstractItemView.NoEditTriggers)

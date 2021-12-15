@@ -40,6 +40,7 @@ class CollectionViewer(QWidget):
         self.edit_max = QLineEdit(self.filter_box)
         self.edit_foil = QComboBox(self.filter_box)
         self.edit_rarity = QWidget(self.filter_box)
+        self.edit_sort = QWidget(self.filter_box)
         self.edit_type.addItems(['', 'Deck', 'Storage'])
         self.edit_sub.addItems([''])
         self.edit_foil.addItems(['', 'True', 'False'])
@@ -55,17 +56,26 @@ class CollectionViewer(QWidget):
             rarity_layout.addWidget(local_check, 0, column)
             column += 1
         self.edit_rarity.setLayout(rarity_layout)
+        sort_layout = QGridLayout()
+        column = 0
+        for this_sort in ['Card Name', 'Set', 'Location', 'Value']:
+            local_check = QCheckBox(this_sort, self.edit_sort)
+            local_check.setChecked(False)
+            sort_layout.addWidget(local_check, 0, column)
+            column += 1
+        self.edit_sort.setLayout(sort_layout)
         filter_titles = [QLabel('Card Name:', self.filter_box), QLabel('Set Name:', self.filter_box),
                          QLabel('Set Type:', self.filter_box), QLabel('Location Name:', self.filter_box),
                          QLabel('Location Type:', self.filter_box), QLabel('Location Subtype:', self.filter_box),
                          QLabel('Min Price:', self.filter_box), QLabel('Max Price:', self.filter_box),
-                         QLabel('Foil:', self.filter_box), QLabel('Rarity:', self.filter_box)]
+                         QLabel('Foil:', self.filter_box), QLabel('Rarity:', self.filter_box),
+                         QLabel('Sorting:', self.filter_box)]
         for i in range(0, len(filter_titles)):
             item_1 = filter_titles[i]
             item_1.setProperty('table_filter', True)
             layout.addWidget(item_1, i * 2, 0)
         filter_boxes = [self.edit_name, self.edit_set, self.edit_set_type, self.edit_location, self.edit_type,
-                        self.edit_sub, self.edit_min, self.edit_max, self.edit_foil, self.edit_rarity]
+                        self.edit_sub, self.edit_min, self.edit_max, self.edit_foil, self.edit_rarity, self.edit_sort]
         for i in range(0, len(filter_boxes)):
             item_1 = filter_boxes[i]
             layout.addWidget(item_1, i * 2 + 1, 0)
@@ -75,7 +85,7 @@ class CollectionViewer(QWidget):
                 elif 'QComboBox' in str(type(item)):
                     item.currentIndexChanged.connect(self.apply_filter)
         self.edit_type.currentIndexChanged.connect(self.fill_sub)
-        for item in self.edit_rarity.children():
+        for item in self.edit_rarity.children() + self.edit_sort.children():
             if 'QCheckBox' in str(type(item)):
                 item.stateChanged.connect(self.apply_filter)
         self.filter_box.setLayout(layout)
@@ -157,6 +167,19 @@ class CollectionViewer(QWidget):
                 if item.isChecked():
                     rarity_constraint.append(item.text().lower())
         constraints += f""" and rarity in ({" ,".join(["'" + x + "'" for x in rarity_constraint])})"""
+        sort_list = []
+        for item in self.edit_sort.children():
+            if 'QCheckBox' in str(type(item)):
+                if item.text() == 'Card Name' and item.isChecked():
+                    sort_list.append('name')
+                elif item.text() == 'Set' and item.isChecked():
+                    sort_list.append('set_name')
+                elif item.text() == 'Location' and item.isChecked():
+                    sort_list.append('Location')
+                elif item.text() == 'Value' and item.isChecked():
+                    sort_list.append('value DESC')
+        if len(sort_list) != 0:
+            constraints += ' order by ' + ' and '.join(sort_list)
         self.table.clear()
         self.refresh_table(constraints)
 

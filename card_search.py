@@ -54,6 +54,8 @@ class CardSearch(QWidget):
                     this_image.setPixmap(pix_map)
                 else:
                     this_image.setText('Oversized Card')
+                    this_image.setAlignment(Qt.AlignCenter)
+                    this_image.setProperty('secondary_title', True)
             except FileNotFoundError:
                 this_image.setText('File not Found')
             self.table_1.setCellWidget(row, column, this_image)
