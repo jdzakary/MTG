@@ -70,14 +70,14 @@ class MainWindow(QMainWindow):
     def create_aspect(self, aspect_name: str):
         current_collection = self.c_widget.currentWidget().name
         current_parent = self.c_widget.currentWidget()
-        if self.c_widget.currentWidget() == self.loading_screen:
+        if not isinstance(self.c_widget.currentWidget(), HomeWindow):
             pass
         elif aspect_name == 'card_insert':
             insert_widget = CardInsert(current_collection, current_parent)
             self.c_widget.addTab(insert_widget, f'{current_collection} (Insert Cards)')
             self.c_widget.setCurrentWidget(insert_widget)
         elif aspect_name == 'collection_value':
-            insert_widget = CollectionValue(current_collection, current_parent)
+            insert_widget = CollectionValue(current_collection, current_parent, 2)
             self.c_widget.addTab(insert_widget, f'{current_collection} (Collection Value)')
             self.c_widget.setCurrentWidget(insert_widget)
         elif aspect_name == 'card_search':

@@ -1,5 +1,6 @@
 from hashlib import md5
-from time import sleep
+import pandas as pd
+import sqlalchemy as db
 
 
 def contains_any(input_string: str, input_set: list):
@@ -21,5 +22,17 @@ def fetch_image(set_type: str, set_name: str, card_id: str, back: bool = False) 
     return image_data
 
 
-def update_prices():
-    sleep(30)
+def fetch_graph(collection_name: str, file_name: str) -> bytes:
+    filepath = f'Graphs/PNG/{collection_name}/{file_name}.png'
+    with open(filepath, 'rb') as file:
+        image_data = file.read()
+    return image_data
+
+
+def graph_data(target_collection: str, path_prefix: str) -> pd.DataFrame:
+    engine = db.create_engine(f'sqlite:///{path_prefix}Database_Files/main_database.db')
+    with open(f'{path_prefix}Database_Files/SQL_Files/collection_data.sql', 'r') as file:
+        query = file.read()
+    query = query.replace('collection_1', target_collection)
+    data = pd.read_sql(query, engine)
+    return data
